@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String      @id @default(uuid())
+  name        String
+  enrollment  Int
+  password    Int
+  createdAt   DateTime    @default(now())
+  type        UserType
+  booksRead   Book[]      @relation("BooksRead")
+  readingBook Boolean
+  loans       Loan[]      @relation("UserLoans")
+}
+
+model Librarian {
+  id          String    @id @default(uuid())
+  name        String
+  accessKey   String
+  password    Int
+  createdAt   DateTime  @default(now())
+}
+
+model Book {
+  id           String     @id @default(uuid())
+  title        String
+  totalQty     Int
+  availableQty Int
+  author       String
+  genre        String
+  rentedQty    Int
+  loans        Loan[]     @relation("BookLoans")
+  readers      User[]     @relation("BooksRead")
+}
+
+model Loan {
+  id                  String   @id @default(uuid())
+  bookId              String
+  userId              String
+  loanDate            DateTime
+  expectedReturnDate  DateTime
+  actualReturnDate    DateTime?
+  pending             Boolean
+
+  book   Book @relation("BookLoans", fields: [bookId], references: [id])
+  user   User @relation("UserLoans", fields: [userId], references: [id])
+}
+
+enum UserType {
+  STUDENT
+  TEACHER
+}
