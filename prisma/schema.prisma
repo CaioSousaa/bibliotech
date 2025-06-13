@@ -12,7 +12,7 @@ model User {
   id          String      @id @default(uuid())
   name        String
   enrollment  Int
-  password    Int
+  password    String
   createdAt   DateTime    @default(now())
   type        UserType
   booksRead   Book[]      @relation("BooksRead")
@@ -24,7 +24,7 @@ model Librarian {
   id          String    @id @default(uuid())
   name        String
   accessKey   String
-  password    Int
+  password    String
   createdAt   DateTime  @default(now())
 }
 
