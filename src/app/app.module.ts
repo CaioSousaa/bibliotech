@@ -1,7 +1,8 @@
 import { Module } from "@nestjs/common";
+import { LibrarianModule } from "src/modules/librarian/librarian.module";
 
 @Module({
-  imports: [],
+  imports: [LibrarianModule],
   controllers: [],
   providers: [],
 })
